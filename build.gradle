@@ -27,5 +27,6 @@ compileTestKotlin {
 }
 
 application {
-    mainClassName = 'MainKt'
+    mainClassName = 'cardindigo.MainKt'
 }
+

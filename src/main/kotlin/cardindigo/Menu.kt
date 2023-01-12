@@ -8,7 +8,8 @@ class Menu(private val cards: Cards){
         var play = true
         while(play){
             println("Choose an action (reset, shuffle, get, exit):")
-            when(readln()){
+            // readlnOrNull()?: throw IllegalStateException()
+            when(readLine() ?: throw IllegalStateException()){
                 "reset" -> {if (cards.reset() != 0) {
                     printWrongAction()} else {
                         println("Card deck is reset.")
