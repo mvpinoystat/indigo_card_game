@@ -1,29 +1,23 @@
 package cardindigo
 
 fun main() {
-    val deck = CardDeck().apply {
-        rank.forEach { print("$it ") }
-        println()
-        suitCharacters.forEach { print("$it ") }
-        println()
-        suit.forEach { print("$it ") }
-    }
-
+    Menu(Cards()).execute()
 }
 
 
-class CardDeck{
+class Cards{
 
-    val rank:List<String> = generateRank()
-    val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
-    val suit:List<String> = generateSuit()
+    private val rank:List<String> = generateRank()
+    private val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
+    val cardDeckReference: List<String> = generateSuit().shuffled()
+    var cardDeckBeingUsed: MutableList<String>  = generateSuit().toMutableList()
 
     private fun generateSuit():List<String>{
         val cards:MutableList<String> = mutableListOf()
 
         for(i in suitCharacters){
             rank.forEach { s->
-                   cards.add("$i$s")
+                   cards.add("$s$i")
                 }
         }
 
@@ -42,7 +36,5 @@ class CardDeck{
         }
 
     }
-
-
 
 }
