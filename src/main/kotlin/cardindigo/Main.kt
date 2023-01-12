@@ -1,12 +1,13 @@
 package cardindigo
 
 fun main() {
-    val deck = CardDeck()
-    deck.rank.forEach { print("$it ") }
-    println()
-    deck.suitCharacters.forEach { print("$it ") }
-    println()
-    deck.suit.forEach { print("$it ") }
+    val deck = CardDeck().apply {
+        rank.forEach { print("$it ") }
+        println()
+        suitCharacters.forEach { print("$it ") }
+        println()
+        suit.forEach { print("$it ") }
+    }
 
 }
 
@@ -14,14 +15,13 @@ fun main() {
 class CardDeck{
 
     val rank:List<String> = generateRank()
-    val suitCharacters =listOf('\u2666','\u2665','\u2660', '\u2663')
-    private val switchedCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
+    val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
     val suit:List<String> = generateSuit()
 
     private fun generateSuit():List<String>{
         val cards:MutableList<String> = mutableListOf()
 
-        for(i in switchedCharacters){
+        for(i in suitCharacters){
             rank.forEach { s->
                    cards.add("$i$s")
                 }
