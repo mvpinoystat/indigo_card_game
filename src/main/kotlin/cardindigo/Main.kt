@@ -11,6 +11,9 @@ class Cards{
     private val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
     val cardDeckReference: List<String> = generateSuit().shuffled()
     var cardDeckBeingUsed: MutableList<String>  = generateSuit().toMutableList()
+    var cardsShownOnTheTable: MutableList<String> = mutableListOf()
+    var cardsInPlayerHand: MutableList<String> = mutableListOf()
+    var cardsInComputerHand: MutableList<String> = mutableListOf()
 
     private fun generateSuit():List<String>{
         val cards:MutableList<String> = mutableListOf()
