@@ -55,7 +55,7 @@ class Menu(private val cards: Cards){
 
             //Here, we start the game
             var isPlaying = true
-            var looper = CONTINUE_LOOP
+            var looper : Int
             var displayLastStatusFlag = true//this
             while (isPlaying) {
                 cards.showCardTableStatus()
@@ -72,7 +72,7 @@ class Menu(private val cards: Cards){
                                 displayLastStatusFlag = false
                             }
                             if(looper == RETURN_WIN){
-                                cards.printGamePlayersStatus(human, computer, human, true)
+                                printGamePlayersStatus(human, computer, human, true)
                                 looper = RETURN_NORMAL
                                 currentWinningPlayer = currentPlayer
                             }
@@ -86,11 +86,10 @@ class Menu(private val cards: Cards){
 
                 }
                 else { // computer player
-                    looper = CONTINUE_LOOP
                     if (cards.cardDeckBeingUsed.isNotEmpty() || computer.cardsOnHand.isNotEmpty()) {
                         looper = cards.chooseCardToPlay(computer, 0)
                         if(looper == RETURN_WIN){
-                            cards.printGamePlayersStatus(human, computer, computer, true)
+                            printGamePlayersStatus(human, computer, computer, true)
                             currentWinningPlayer = currentPlayer
                         }
                         currentPlayer = human
@@ -112,7 +111,7 @@ class Menu(private val cards: Cards){
                 else -> firstPlayer.score += THREE_POINTS
             }
 
-            if(displayLastStatusFlag) cards.printGamePlayersStatus(human,computer,human,false)
+            if(displayLastStatusFlag) printGamePlayersStatus(human,computer,human,false)
 
         }
 
@@ -121,7 +120,7 @@ class Menu(private val cards: Cards){
     }
 }
 
-fun Cards.printGamePlayersStatus(humanPlayer: Player, computerPlayer:Player, won: Player,
+fun printGamePlayersStatus(humanPlayer: Player, computerPlayer:Player, won: Player,
 printWhoWins: Boolean){
     if(printWhoWins) println("${won.kind.name} wins cards")
     var line2 = "Score: ${humanPlayer.kind.name} ${humanPlayer.score}"
@@ -146,7 +145,7 @@ fun Cards.showCardTableStatus(){
     }
 }
 
-fun Cards.printCardsInHand(hand:Player){
+fun printCardsInHand(hand:Player){
     if(hand.kind == CardGamers.Player){
         print("Cards in hand:")
         for(i in hand.cardsOnHand.indices){
@@ -173,7 +172,7 @@ fun Cards.chooseCardToPlay(hand:Player, loopStatus:Int): Int{
             this.replenishHand(hand)
         }
         if(loopStatus != RETURN_ERROR) {//Do not print below if card selection is wrong
-            this.printCardsInHand(hand)
+            printCardsInHand(hand)
         }
         val selections = 1..hand.cardsOnHand.size
         println("Choose a card to play (1-${hand.cardsOnHand.size}): ")
@@ -187,7 +186,7 @@ fun Cards.chooseCardToPlay(hand:Player, loopStatus:Int): Int{
                     val selectedCard = hand.cardsOnHand[selected-1]
                     //compare cards:
                     if(this.cardsShownOnTheTable.isNotEmpty()) {
-                    if(this.checkSelectedCardIfWinner(selectedCard, this.cardsShownOnTheTable.last()))
+                    if(checkSelectedCardIfWinner(selectedCard, this.cardsShownOnTheTable.last()))
                          {
                             this.cardsShownOnTheTable.add(selectedCard)
                             hand.cardsOnHand.remove(selectedCard)
@@ -222,7 +221,7 @@ fun Cards.chooseCardToPlay(hand:Player, loopStatus:Int): Int{
         val selectedCard = hand.cardsOnHand.shuffled()[0]
         println("Computer plays $selectedCard")
         if(this.cardsShownOnTheTable.isNotEmpty()){
-            if(this.checkSelectedCardIfWinner(selectedCard, this.cardsShownOnTheTable.last()))
+            if(checkSelectedCardIfWinner(selectedCard, this.cardsShownOnTheTable.last()))
             {
                 this.cardsShownOnTheTable.add(selectedCard)
                 hand.cardsOnHand.remove(selectedCard)
@@ -241,7 +240,7 @@ fun Cards.chooseCardToPlay(hand:Player, loopStatus:Int): Int{
     }
 }
 
-fun Cards.checkSelectedCardIfWinner(selected: String, topMostCard: String): Boolean {
+fun checkSelectedCardIfWinner(selected: String, topMostCard: String): Boolean {
    //check if 10 is there:
     val truthTable = mutableListOf(false, false, false)
    if(selected.length == 3 && topMostCard.length == 3) truthTable[0] = true
@@ -302,26 +301,6 @@ fun Cards.computeScore():Int {
     return score
 }
 
-fun Cards.reset():Int{
-    this.cardDeckBeingUsed = this.cardDeckReference.shuffled().toMutableList()
-    return 0
-}
-// Put a card on the table:
-fun Cards.putInTable(card:String){
-    for(i in this.cardDeckBeingUsed){
-        if(card == i){
-            this.cardsShownOnTheTable.add(card)
-        }
-    }
-
-}
-
-fun Cards.showCardsOnTable(){
-    cardsShownOnTheTable.forEach{
-        print("$it ")
-    }
-    println()
-}
 //get N amount of cards:
 fun Cards.get(input:Int):Int{
     val theRange = 1..this.cardDeckBeingUsed.size
