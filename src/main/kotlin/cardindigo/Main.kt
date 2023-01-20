@@ -1,5 +1,12 @@
 package cardindigo
 
+const val RETURN_NORMAL = 0
+const val RETURN_ERROR = -1
+const val RETURN_EXIT_GAME = 1
+const val RETURN_WIN = 2
+const val CONTINUE_LOOP = -2
+const val THREE_POINTS = 3
+
 fun main() {
     Menu(Cards()).execute()
 }
