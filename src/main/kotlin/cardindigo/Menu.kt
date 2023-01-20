@@ -55,7 +55,7 @@ class Menu(private val cards: Cards){
                 if (currentPlayer.kind == Players.HUMAN) {
                     cards.showCardTableStatus()
                     var looper = -2 //feedback regarding status of loop
-                    if (cards.cardDeckBeingUsed.isNotEmpty() || cards.cardsInPlayerHand.isNotEmpty()) {
+                    if (cards.cardDeckBeingUsed.isNotEmpty() || human.cardsOnHand.isNotEmpty()) {
                         while (looper != 0) {//A 0 means acceptable input from player.
                             //the looper provides a feedback mechanism
                             looper = cards.chooseCardToPlay(human, looper)
@@ -73,7 +73,7 @@ class Menu(private val cards: Cards){
 
                 } else {
                     cards.showCardTableStatus()
-                    if (cards.cardDeckBeingUsed.isNotEmpty() || cards.cardsInComputerHand.isNotEmpty()) {
+                    if (cards.cardDeckBeingUsed.isNotEmpty() || computer.cardsOnHand.isNotEmpty()) {
                         cards.chooseCardToPlay(computer, 0)
                         currentPlayer = human
                     } else {
