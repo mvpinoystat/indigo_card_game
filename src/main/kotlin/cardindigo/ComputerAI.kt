@@ -1,0 +1,4 @@
+package cardindigo
+
+class ComputerAI {
+}
