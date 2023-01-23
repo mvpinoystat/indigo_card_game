@@ -110,13 +110,20 @@ class Menu(private val cards: Cards){
             //the players have no more cards:, the points will transfer to the last player who
             //won the last card
             cards.transferCardsToPlayer(currentWinningPlayer)
-            //now whoever gets the most card, wins:
-            when{
-                human.cardsWon.size > computer.cardsWon.size -> human.score += THREE_POINTS
-                human.cardsWon.size < computer.cardsWon.size-> computer.score += THREE_POINTS
-                //if the quantity of cards won are equal:
-                else -> firstPlayer.score += THREE_POINTS
+            //now whoever gets the most card, wins the three points:
+
+            if (human.cardsWon.size > computer.cardsWon.size) {
+                human.score += THREE_POINTS
+            } else{
+                if(human.cardsWon.size < computer.cardsWon.size){
+                    computer.score += THREE_POINTS
+                } else{
+                    //if the quantity of cards won are equal:
+                    firstPlayer.score += THREE_POINTS
+                }
             }
+
+
 
             if(displayLastStatusFlag) printGamePlayersStatus(human,computer,human,false)
 

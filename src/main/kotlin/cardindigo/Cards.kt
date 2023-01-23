@@ -1,11 +1,23 @@
 package cardindigo
 
-
-
 class Cards{
 
+    companion object {
+        val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
+
+        fun generateRank():List<String>{
+            val initialList:List<String> = listOf("2","3","4","5","6","7","8","9","10")
+
+            return mutableListOf<String>().also {
+                it.addAll(initialList)
+                it.add(0,"A")
+                it.addAll(listOf("J", "Q","K"))
+            }
+
+        }
+    }
+
     private val rank:List<String> = generateRank()
-    private val suitCharacters =listOf('\u2660','\u2665','\u2666','\u2663')
     //val cardDeckReference: List<String> = generateSuit().shuffled()
     var cardDeckBeingUsed: MutableList<String>  = generateSuit().toMutableList()
     var cardsShownOnTheTable: MutableList<String> = mutableListOf()
@@ -21,18 +33,6 @@ class Cards{
 
 
         return cards.toList()
-    }
-
-
-    private fun generateRank():List<String>{
-        val initialList:List<String> = listOf("2","3","4","5","6","7","8","9","10")
-
-        return mutableListOf<String>().also {
-            it.addAll(initialList)
-            it.add(0,"A")
-            it.addAll(listOf("J", "Q","K"))
-        }
-
     }
 
 }
@@ -107,10 +107,18 @@ fun Cards.chooseCardToPlay(hand:Player, loopStatus:Int): Int{
         if(hand.cardsOnHand.isEmpty()){
             this.replenishHand(hand)
         }
-        /**This is where the compute use Logic to select a card **/
-
-
-        val selectedCard = hand.cardsOnHand.shuffled()[0]
+        /**This is where the computer use Logic to select a card **/
+        //print the cards:
+        hand.cardsOnHand.forEach {
+            print("$it ")
+        }
+        println()
+        //compute logic to select the card:
+        val selectedCard = ComputerAI(hand.cardsOnHand, this.cardsShownOnTheTable)
+            .applyThisRuleIfThereIsOnlyOneCardOnHand() //rule 1
+            .applyThisRuleIfThereIsOneCandidateCard() //rule 2
+            .applyRules3And4and5() //rule 3, 4 and 5
+            .returnSelectedCard()
         println("Computer plays $selectedCard")
         if(this.cardsShownOnTheTable.isNotEmpty()){
             if(checkSelectedCardIfWinner(selectedCard, this.cardsShownOnTheTable.last()))
